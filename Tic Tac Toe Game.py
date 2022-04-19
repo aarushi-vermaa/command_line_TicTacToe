@@ -80,7 +80,6 @@ class tic_tac_toe:
             if place.isdigit():
                 if int(place) in self.place_maps.keys():
                     board_place = self.place_maps[int(place)]
-                    print("This is the board_place", self.board)
                 else:
                     print("Invalid input. Please enter a number between 1 and 9.")
                     self.turn()
@@ -89,7 +88,6 @@ class tic_tac_toe:
                 self.turn()
             if self.board[board_place] == "":
                 self.board[board_place] = self.players[self.player_turn]
-                print("This is the board", self.board)
             else:
                 print("Position Occupied. Please Try Again.")
                 self.turn()
@@ -98,4 +96,4 @@ class tic_tac_toe:
             elif self.player_turn == "Player 2":
                 self.player_turn = "Player 1"
 
-            print("This is the end print statement", self.board)
+            print(self.board)
