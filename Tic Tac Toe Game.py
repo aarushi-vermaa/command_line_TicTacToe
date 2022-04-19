@@ -1,6 +1,7 @@
 """Tic Tac Toe Game"""
 import numpy as np
 import warnings
+import sys
 
 warnings.filterwarnings("ignore")
 
@@ -21,8 +22,9 @@ class tic_tac_toe:
             9: (2, 2),
         }
         self.player_turn = np.random.choice(list(self.players.keys()), 1, [0.5, 0.5])[0]
+        return self.turn()
 
-    def check_one(self, a):
+    def check_repeating_letter(self, a):
         flag = True
         for i in range(1, len(a)):
             if a[i] != a[i - 1]:
@@ -30,35 +32,44 @@ class tic_tac_toe:
                 return flag
         return flag
 
+    def diagonal(self):
+        diagonal1 = []
+        diagonal2 = []
+        for i in range(3):
+            for j in range(3):
+                if i == j:
+                    diagonal1.append(self.board[i, j])
+                    diagonal_1 = np.array(diagonal1)
+                if i + j == 2:
+                    diagonal2.append(self.board[i, j])
+                    diagonal_2 = np.array(diagonal2)
+        return diagonal_1, diagonal_2
+
     def check_game_over(self):
         check_these = []
         for i in range(3):
             if ("O" in self.board[:, i]) or ("X" in self.board[:, i]):
                 check_these.append(self.board[:, i])
-            elif ("O" in self.board[i, :]) or ("X" in self.board[i, :]):
+            if ("O" in self.board[i, :]) or ("X" in self.board[i, :]):
                 check_these.append(self.board[i, :])
-
-        diagonal1 = np.array([])
-        diagonal2 = np.array([])
-        for i in range(3):
-            for j in range(3):
-                if i == j:
-                    np.append(diagonal1, board[i, j])
-                elif i + j == 2:
-                    np.append(diagonal2, board[i, j])
-        if ("O" in list(diagonal1)) or ("X" in list(diagonal1)):
-            check_these.append(diagonal1)
-        if ("O" in diagonal2) or ("X" in diagonal2):
-            check_these.append(diagonal2)
+        diagonal_1, diagonal_2 = self.diagonal()
+        if ("O" in list(diagonal_1)) or ("X" in list(diagonal_1)):
+            check_these.append(diagonal_1)
+        if ("O" in list(diagonal_2)) or ("X" in list(diagonal_2)):
+            check_these.append(diagonal_2)
 
         if len(check_these) > 0:
             for i in check_these:
 
-                if self.check_one(i):
+                if self.check_repeating_letter(i):
                     print("Game Over")
                     element = np.unique(i)[0]
                     rev_players = dict(zip(self.players.values(), self.players.keys()))
                     print(f"{rev_players[element]} Wins!")
+                    return True
+
+                elif "" not in self.board:
+                    print("It's a Tie!")
                     return True
         return False
 
@@ -66,20 +77,25 @@ class tic_tac_toe:
         while self.check_game_over() == False:
             print(f"{self.player_turn}'s Turn.")
             place = input(f"{self.players} Please enter the position:")
-            board_place = self.place_maps[int(place)]
+            if place.isdigit():
+                if int(place) in self.place_maps.keys():
+                    board_place = self.place_maps[int(place)]
+                    print("This is the board_place", self.board)
+                else:
+                    print("Invalid input. Please enter a number between 1 and 9.")
+                    self.turn()
+            else:
+                print("Invalid input. Please enter a number between 1 and 9")
+                self.turn()
             if self.board[board_place] == "":
                 self.board[board_place] = self.players[self.player_turn]
+                print("This is the board", self.board)
             else:
                 print("Position Occupied. Please Try Again.")
                 self.turn()
-
             if self.player_turn == "Player 1":
                 self.player_turn = "Player 2"
             elif self.player_turn == "Player 2":
                 self.player_turn = "Player 1"
 
-            if "" not in self.board:
-                print("Its a Tie.")
-                break
-
-            print(self.board)
+            print("This is the end print statement", self.board)
