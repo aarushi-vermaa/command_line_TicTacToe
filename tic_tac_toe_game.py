@@ -1,10 +1,6 @@
 """Tic Tac Toe Game"""
 import numpy as np
-import warnings
 import sys
-
-warnings.filterwarnings("ignore")
-
 
 class tic_tac_toe:
     def __init__(self):
@@ -22,6 +18,9 @@ class tic_tac_toe:
             9: (2, 2),
         }
         self.player_turn = np.random.choice(list(self.players.keys()), 1, [0.5, 0.5])[0]
+        self.player1wins = 0
+        self.player2wins = 0
+        self.ties = 0
         return self.turn()
 
     def check_repeating_letter(self, a):
@@ -60,23 +59,34 @@ class tic_tac_toe:
 
         if len(check_these) > 0:
             for i in check_these:
-
                 if self.check_repeating_letter(i):
-                    print("Game Over")
+                    print("Game Over...")
+                    
                     element = np.unique(i)[0]
                     rev_players = dict(zip(self.players.values(), self.players.keys()))
-                    print(f"{rev_players[element]} Wins!")
+                    print(f"{rev_players[element]} Wins!\n")
+                    if rev_players[element] == "Player 1":
+                        self.player1wins+=1
+                    elif rev_players[element] == "Player 2":
+                        self.player2wins+=1
+                    print(f"Player 1 win count: {self.player1wins}")
+                    print(f"Player 2 win count: {self.player2wins}")
+                    print(f"Ties: {self.ties}\n")
                     return self.play_again()
 
                 elif "" not in self.board:
-                    print("It's a Tie!")
+                    print("It's a Tie!\n")
+                    self.ties+=1
+                    print(f"Player 1 win count: {self.player1wins}")
+                    print(f"Player 2 win count: {self.player2wins}")
+                    print(f"Ties: {self.ties}\n")
                     return self.play_again()
         return False
 
     def turn(self):
         while self.check_game_over() == False:
             print(f"{self.player_turn}'s Turn.")
-            place = input(f"{self.players} Please enter the position:")
+            place = input(f"{self.players} Please enter the position: ")
             if place.isdigit():
                 if int(place) in self.place_maps.keys():
                     board_place = self.place_maps[int(place)]
@@ -99,9 +109,9 @@ class tic_tac_toe:
             print(self.board)
 
     def play_again(self):
-        ask = input("Do you want to play again? (Y/N)").lower()
+        ask = input("Do you want to play again? (Y/N): ").lower()
         if ask[0] == "y":
-            print("Setting up new game...")
+            print("Setting up new game...\n")
             self.board = np.array([["", "", ""], ["", "", ""], ["", "", ""]])
             self.player_turn = np.random.choice(list(self.players.keys()), 1, [0.5, 0.5])[0]
             self.turn()
