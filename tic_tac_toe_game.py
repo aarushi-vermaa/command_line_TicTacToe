@@ -1,11 +1,13 @@
 """Tic Tac Toe Game"""
+import winsound
 import numpy as np
 import sys
+
 
 class tic_tac_toe:
     def __init__(self):
         self.board = np.array([["", "", ""], ["", "", ""], ["", "", ""]])
-        self.players = {"Player 1": "O", "Player 2": "X"}
+
         self.place_maps = {
             1: (0, 0),
             2: (0, 1),
@@ -17,10 +19,7 @@ class tic_tac_toe:
             8: (2, 1),
             9: (2, 2),
         }
-        self.player_turn = np.random.choice(list(self.players.keys()), 1, [0.5, 0.5])[0]
-        self.player1wins = 0
-        self.player2wins = 0
-        self.ties = 0
+
         return self.turn()
 
     def check_repeating_letter(self, a):
@@ -44,7 +43,7 @@ class tic_tac_toe:
                     diagonal_2 = np.array(diagonal2)
         return diagonal_1, diagonal_2
 
-    def check_game_over(self):
+    def create_check_arrays(self):
         check_these = []
         for i in range(3):
             if ("O" in self.board[:, i]) or ("X" in self.board[:, i]):
@@ -56,32 +55,47 @@ class tic_tac_toe:
             check_these.append(diagonal_1)
         if ("O" in list(diagonal_2)) or ("X" in list(diagonal_2)):
             check_these.append(diagonal_2)
+        return check_these
 
-        if len(check_these) > 0:
-            for i in check_these:
+    def isTie(self):
+        if "" not in self.board:
+            return True
+        else:
+            return False
+
+    def check_game_over(self):
+        arr_tb_check = self.create_check_arrays()
+        if len(arr_tb_check) > 0:
+            for i in arr_tb_check:
                 if self.check_repeating_letter(i):
-                    print("Game Over...")
-                    
-                    element = np.unique(i)[0]
-                    rev_players = dict(zip(self.players.values(), self.players.keys()))
-                    print(f"{rev_players[element]} Wins!\n")
-                    if rev_players[element] == "Player 1":
-                        self.player1wins+=1
-                    elif rev_players[element] == "Player 2":
-                        self.player2wins+=1
-                    print(f"Player 1 win count: {self.player1wins}")
-                    print(f"Player 2 win count: {self.player2wins}")
-                    print(f"Ties: {self.ties}\n")
-                    return self.play_again()
-
-                elif "" not in self.board:
-                    print("It's a Tie!\n")
-                    self.ties+=1
-                    print(f"Player 1 win count: {self.player1wins}")
-                    print(f"Player 2 win count: {self.player2wins}")
-                    print(f"Ties: {self.ties}\n")
-                    return self.play_again()
+                    return True
+            if self.isTie():
+                return True
         return False
+
+# will only work if game is over
+    def winning_player(self):
+        arr_tb_check2 = self.create_check_arrays()
+        for i in arr_tb_check2:
+            if self.check_repeating_letter(i):
+                if np.unique(i)[0] == "O":
+                    return 'Computer'
+                elif np.unique(i)[0] == "X":
+                    return "Player"
+                else:
+                    pass
+        if self.isTie():
+            return "Tie"
+#############work onwards here##############
+    def computer_play(self):
+        board_S = self.board.copy()
+
+        for i, j in enumerate(board_S):
+            if j == "":
+                board_S[i + 1] = "O"
+                if self.check_game_over():
+                    if self.winning_player() == "Computer":
+                        
 
     def turn(self):
         while self.check_game_over() == False:
@@ -113,11 +127,15 @@ class tic_tac_toe:
         if ask[0] == "y":
             print("Setting up new game...\n")
             self.board = np.array([["", "", ""], ["", "", ""], ["", "", ""]])
-            self.player_turn = np.random.choice(list(self.players.keys()), 1, [0.5, 0.5])[0]
+            self.player_turn = np.random.choice(
+                list(self.players.keys()), 1, [0.5, 0.5]
+            )[0]
             self.turn()
         elif ask[0] == "n":
             print("See you next time!")
         else:
             print("Not an acceptable response. Please enter Y or N.")
             self.play_again()
-        
+
+
+board_S = np.array([[1, 2], [5, 6]])
