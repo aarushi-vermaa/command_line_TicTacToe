@@ -6,7 +6,7 @@ We are building a Tic-Tac-Toe game using Python. The user can play against anoth
 
 ## How to Play
 
-### The Board
+### The Board:
 
 ```
 [['', '', ''],
@@ -15,16 +15,25 @@ We are building a Tic-Tac-Toe game using Python. The user can play against anoth
   
   ['', '', '']]
 ```
-The board is a 3x3 grid as represented above. Each player can place their mark (either X or O) during their respective turns by entering thei (To update with how numbers relate to the grid)
+The board is a 3x3 grid as represented above. Each player can place their mark (either X or O) during their respective turns by entering their **(To update with how numbers relate to the grid)**
 
-### Players Selection 
-When the game is loaded, you need to select your players. You need to select the type of player you want by [to be updated], either computer or human. The player who goes first is selected randomly
 
-### Human versus Human
+### Players Selection:
+When the game is loaded, you need to select your players. You need to select the type of player you want by **(to be updated)** , either computer or human. The player who goes first is selected randomly.
+
+
+### Human versus Human:
 If two human players are playing, the command prompt will display which Player's turn it is. To play your turn, you must specify the position to be played on the 3x3 grid. 
 
-### Human versus Computer
+
+### Human versus Computer:
 If you are playing against the computer, the command prompt will display which Player's turn it is. To play your turn, you must specify the position to be played on the 3x3 grid, after that the computer will perform its move.
+
+
+### Game Over:
+Once the game has a winner or there is a draw, you will see prompt stating the outcome. From here you can start a new game by **(to update how)**
+
+----
 
 ## Getting up and running:
 
@@ -43,6 +52,6 @@ pip install -r requirements.txt
 ```
 Running this command will install the packages used to build the game. This will allow you to play the game seamlessly
 
-Step 3: Download the data by running the download_data.py file by navigating to the /00_setup folder
+Step 3: **To update**
 
 
