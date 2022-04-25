@@ -10,8 +10,10 @@ class tic_tac_toe:
 
     def __init__(self) -> None:
         """Initiate Class."""
+        #Creating the board using 3 empty arrays
         self.board = np.array([["", "", ""], ["", "", ""], ["", "", ""]])
 
+        #Keys in the dictionary represent the position on the board
         self.place_maps = {
             1: (0, 0),
             2: (0, 1),
@@ -24,7 +26,7 @@ class tic_tac_toe:
             9: (2, 2),
         }
 
-        # keys are comp_turn arguement
+        # The keys sepcify keys are comp_turn argument
         # values are list of list
         # the first list is list of board states
         # the second list corresponds to the
@@ -39,15 +41,15 @@ class tic_tac_toe:
             "Would you like to play against the computer or another player?\
 (Answer: Computer/Player):  "
         )
-        # keep asking until user gives the a desired anwer without throwing an error
+        # The question is repeated until user submits the acceptable answer
         while self.game_mode not in ["Computer", "Player"]:
-            print("Please respond with either 'Computer' or 'Player'")
+            print("INVALID INPUT: Please respond with either 'Computer' or 'Player'")
             self.game_mode = input(
                 "Would you like to play against the computer or another player?\
 (Answer: Computer/Player):  "
             )
 
-        # create game players in accordance with the game mode
+        # Create the Players of the game on the basis of User's input
         if self.game_mode == "Computer":
             self.player_maps = {"User": "X", "Computer": "O"}
         else:
@@ -58,6 +60,8 @@ class tic_tac_toe:
         self.turns_played = 0
         self.score_board = {self.players[0]: 0, self.players[1]: 0, "Ties": 0}
 
+#################################
+## To think of a better name for this function ##
     def check_in_cache(
         self, board_state: np.ndarray, Comp_turn: bool
     ) -> Union[int, str]:
@@ -69,26 +73,30 @@ class tic_tac_toe:
                 return self.minimax_cache[Comp_turn][1][i]
         return "Not found"
 
-    # during the game we ask users serveral questions
-    # like which move to play. If user accidentaly answers something
-    # wrong, this method will ask the user to answer again. Otherwise,
-    # the game would end prematurely and the user would have to start over.
+   
     def ask_question(self, input_string: str, desired_answers: List[str]) -> str:
-        """Ask user the question and keep asking until answered correctly."""
+        """ Ask user the question and repeat question till user inputs acceptable answer.
+
+        The user is asked for inputs multiple times during the game. We create this
+        helper function to repeat the question if the user accidentaly answers something wrong. 
+        Otherwise, the game would end prematurely and the user would have to start over."""
+
         answer = input(input_string)
         while answer not in desired_answers:
             print("Please respond with one of the following: ", desired_answers)
             answer = input(input_string)
         return answer
 
-    def change_player(self) -> None:
-        """Change the game player who is taking turn."""
+    def swap_player(self) -> None:
+        """Swaps the player's turns."""
         # count the number of turns played
         if self.player_turn == self.players[0]:
             self.player_turn = self.players[1]
         else:
             self.player_turn = self.players[0]
 
+#####################################################
+### To think of better function name
     def check_repeating_letter(self, a: np.ndarray) -> bool:
         """Check if an array has all the same letter."""
         flag = True
@@ -99,7 +107,7 @@ class tic_tac_toe:
         return flag
 
     def diagonal(self) -> Tuple[np.ndarray, np.ndarray]:
-        """Create the two diagonals of the board."""
+        """Create arrays that represent the two diagonals on the board."""
         diagonal1 = []
         diagonal2 = []
         for i in range(3):
@@ -111,6 +119,7 @@ class tic_tac_toe:
                     diagonal2.append(self.board[i, j])
                     diagonal_2 = np.array(diagonal2)
         return diagonal_1, diagonal_2
+
 
     def create_check_arrays(self) -> List[np.ndarray]:
         """Create arrays that need to be checked to determine if the game is over"""
@@ -128,7 +137,7 @@ class tic_tac_toe:
         return check_these
 
     def isTie(self) -> bool:
-        """Check if it's a tie."""
+        """Check if the game has ended in a tie."""
         if "" not in self.board:
             return True
         else:
@@ -145,9 +154,8 @@ class tic_tac_toe:
                 return True
         return False
 
-    # will only work if game is over
     def winning_player(self) -> str:
-        """Return the winning player."""
+        """Return the winning player if the game has ended."""
         arr_tb_check2 = self.create_check_arrays()
         if self.isTie():
             return "Tie"
@@ -164,7 +172,7 @@ class tic_tac_toe:
     # Computer will play its best move. Then the computer puts itself in users place
     # and place the best move from user's perspective.
     # Then the computer plays its own best move again
-    # The Comp_turn is bool arguement that indicates if the computer is playing
+    # The Comp_turn is bool argument that indicates if the computer is playing
     # from a user perspective or a computer perspective.
 
     def minimax(self, Comp_turn: bool) -> int:
@@ -200,7 +208,7 @@ class tic_tac_toe:
                                 "Computer"
                             ]
                             # now that computer has played its move
-                            # we call minimax again to but with comp_turn as False
+                            # we call minimax again but with comp_turn as False
                             # so computer plays from a users perpective
                             ans = self.minimax(False)
                             # Add minimax value for the board state to cache
@@ -261,7 +269,7 @@ class tic_tac_toe:
         return move[np.argmax(score)]
 
     def game(self):
-        """Plays an episode of the game till the end."""
+        """Plays one instance of the game till the game ends."""
         while self.check_game_over() == False:
             # played if game.mode is One Player
             # in that case the chunk of code below will
@@ -284,7 +292,7 @@ class tic_tac_toe:
                 if self.check_game_over():
                     break
                 self.turns_played += 1
-                self.change_player()
+                self.swap_player()
 
             else:
                 # the code plays the players move
@@ -309,31 +317,31 @@ class tic_tac_toe:
 
                     print(self.board)
                     self.turns_played += 1
-                    self.change_player()
+                    self.swap_player()
 
         # now that the game is over we check who wins
         # and add points to the score board accordingly
         if self.winning_player() == "Tie":
-            print("Its a Tie")
+            print("Its a Tie!\n")
             self.score_board["Ties"] += 1
         elif self.winning_player() == self.players[0]:
-            print(f"{self.players[0]} Won.")
+            print(f"{self.players[0]} Won!\n")
             self.score_board[self.players[0]] += 1
         elif self.winning_player() == self.players[1]:
-            print(f"{self.players[1]} Won.")
+            print(f"{self.players[1]} Won!\n")
             self.score_board[self.players[1]] += 1
 
         # asks if the game needs to be played again.
         self.play_again()
 
     def reset_game(self) -> None:
-        """This will reset the game"""
+        """This function reset the game to an empty board. Players can start playing again."""
         self.player_turn = np.random.choice(self.players)
         self.turns_played = 0
         self.board = np.array([["", "", ""], ["", "", ""], ["", "", ""]])
 
     def play_again(self) -> None:
-        """Asks if the player wants to play again or quit the game."""
+        """Asks user if they want to play again or quit the game."""
 
         # ask if wants to play again
         game_again = self.ask_question(
