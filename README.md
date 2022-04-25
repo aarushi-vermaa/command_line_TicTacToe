@@ -9,7 +9,7 @@ We are building a Tic-Tac-Toe game using Python. The user can play against anoth
 #### The Board
 
 ```
-([['', '', ''],
+[['', '', ''],
 
   ['', '', ''],
   
