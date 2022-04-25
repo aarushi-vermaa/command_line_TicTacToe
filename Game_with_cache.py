@@ -2,7 +2,7 @@
 
 import numpy as np
 import sys
-from functools import cache
+from typing import List, Dict, Tuple, Union
 
 
 class tic_tac_toe:
@@ -30,18 +30,21 @@ class tic_tac_toe:
         # the second list corresponds to the
         # minimax for the board states in the
         # first list
-        self.minimax_cache = {False: [[], []], True: [[], []]}
+        self.minimax_cache: Dict[bool, List[Union[List[], List[]]]] = {
+            False: [[], []],
+            True: [[], []],
+        }
 
         self.game_mode = input(
-            "Do you want to against the computer or another player?\
-(Answer: Computer/Another Player):  "
+            "Would you like to play against the computer or another player?\
+(Answer: Computer/Player):  "
         )
         # keep asking until user gives the a desired anwer without throwing an error
-        while self.game_mode not in ["Computer", "Another Player"]:
-            print("Please respond with either 'Computer' or 'Another Player'")
+        while self.game_mode not in ["Computer", "Player"]:
+            print("Please respond with either 'Computer' or 'Player'")
             self.game_mode = input(
-                "Do you want to against the computer or another player?\
-(Answer: Computer/Another Player):  "
+                "Would you like to play against the computer or another player?\
+(Answer: Computer/Player):  "
             )
 
         # create game players in accordance with the game mode
@@ -55,7 +58,9 @@ class tic_tac_toe:
         self.turns_played = 0
         self.score_board = {self.players[0]: 0, self.players[1]: 0, "Ties": 0}
 
-    def check_in_cache(self, board_state: np.ndarray, Comp_turn: bool) -> int:
+    def check_in_cache(
+        self, board_state: np.ndarray, Comp_turn: bool
+    ) -> Union[int, str]:
         """Check if minimax for a particular board state for a
         Comp_turn has been calculated. If yes return the minimax value.
         Else return Not found."""
@@ -65,26 +70,27 @@ class tic_tac_toe:
         return "Not found"
 
     # during the game we ask users serveral questions
-    # like which move to play. If user accidentaly answers some
-    # thing wrong the game will throw an error and will need
-    # to be restarted. to avoid that we create this method.
-    def ask_question(self, input_string: str, desired_answers: list[str]) -> str:
+    # like which move to play. If user accidentaly answers something
+    # wrong, this method will ask the user to answer again. Otherwise,
+    # the game would end prematurely and the user would have to start over.
+    def ask_question(self, input_string: str, desired_answers: List[str]) -> str:
         """Ask user the question and keep asking until answered correctly."""
         answer = input(input_string)
         while answer not in desired_answers:
-            print("Please respond with on of the following:", desired_answers)
+            print("Please respond with one of the following: ", desired_answers)
             answer = input(input_string)
         return answer
 
     def change_player(self) -> None:
         """Change the game player who is taking turn."""
+        # count the number of turns played
         if self.player_turn == self.players[0]:
             self.player_turn = self.players[1]
         else:
             self.player_turn = self.players[0]
 
     def check_repeating_letter(self, a: np.ndarray) -> bool:
-        """Check if an array has all the same shapes."""
+        """Check if an array has all the same letter."""
         flag = True
         for i in range(1, len(a)):
             if a[i] != a[i - 1]:
@@ -92,8 +98,8 @@ class tic_tac_toe:
                 return flag
         return flag
 
-    def diagonal(self) -> np.ndarray:
-        """Create the two diaganols of the board."""
+    def diagonal(self) -> Tuple[np.ndarray, np.ndarray]:
+        """Create the two diagonals of the board."""
         diagonal1 = []
         diagonal2 = []
         for i in range(3):
@@ -106,7 +112,7 @@ class tic_tac_toe:
                     diagonal_2 = np.array(diagonal2)
         return diagonal_1, diagonal_2
 
-    def create_check_arrays(self) -> list[np.ndarray]:
+    def create_check_arrays(self) -> List[np.ndarray]:
         """Create arrays that need to be checked to determine if the game is over"""
         check_these = []
         for i in range(3):
@@ -122,7 +128,7 @@ class tic_tac_toe:
         return check_these
 
     def isTie(self) -> bool:
-        """Check if its a tie."""
+        """Check if it's a tie."""
         if "" not in self.board:
             return True
         else:
@@ -142,17 +148,16 @@ class tic_tac_toe:
     # will only work if game is over
     def winning_player(self) -> str:
         """Return the winning player."""
-        arr_tb_check2: np.ndarray = self.create_check_arrays()
-        for i in arr_tb_check2:
-            if self.check_repeating_letter(i):
-                if np.unique(i)[0] == self.player_maps[self.players[0]]:
-                    return self.players[0]
-                elif np.unique(i)[0] == self.player_maps[self.players[1]]:
-                    return self.players[1]
-                else:
-                    pass
+        arr_tb_check2 = self.create_check_arrays()
         if self.isTie():
             return "Tie"
+        else:
+            for i in arr_tb_check2:
+                if self.check_repeating_letter(i):
+                    if np.unique(i)[0] == self.player_maps[self.players[0]]:
+                        return self.players[0]
+                    elif np.unique(i)[0] == self.player_maps[self.players[1]]:
+                        return self.players[1]
 
     # a recursive function
     # aims to maximie computer rewards but also assumes that the user will always play the optimal move.
@@ -262,10 +267,15 @@ class tic_tac_toe:
             # in that case the chunk of code below will
             # play the computers move
             if self.player_turn == "Computer":
-                print("Computer's Turn")
+                print("\nComputer's Turn")
                 # hardcoded part for if computer plays the first turn
                 if self.turns_played == 0:
                     self.board[0, 0] = self.player_maps["Computer"]
+                elif self.turns_played == 1:
+                    print("Computer is thinking...")
+                    self.board[
+                        self.place_maps[self.computer_play()]
+                    ] = self.player_maps["Computer"]
                 else:
                     self.board[
                         self.place_maps[self.computer_play()]
@@ -283,14 +293,14 @@ class tic_tac_toe:
                 # if the game.mode is two players
                 # it will play the move of each player
                 # one by one
-                print(f"{self.player_turn}'s Turn")
+                print(f"\n{self.player_turn}'s Turn")
                 potential_moves = [str(i) for i in self.place_maps.keys()]
                 move = self.ask_question(
                     "Please enter the position you want to play:  ", potential_moves
                 )
 
                 if self.board[self.place_maps[int(move)]] != "":
-                    print("Position occupied, Please Try again")
+                    print("INVALID MOVE: position occupied. Please try again.\n")
                     self.game()
                 else:
                     self.board[self.place_maps[int(move)]] = self.player_maps[
@@ -313,7 +323,7 @@ class tic_tac_toe:
             print(f"{self.players[1]} Won.")
             self.score_board[self.players[1]] += 1
 
-        # asks if the game need to be played again.
+        # asks if the game needs to be played again.
         self.play_again()
 
     def reset_game(self) -> None:
@@ -323,39 +333,39 @@ class tic_tac_toe:
         self.board = np.array([["", "", ""], ["", "", ""], ["", "", ""]])
 
     def play_again(self) -> None:
-        """Something similar to what Sydney did."""
+        """Asks if the player wants to play again or quit the game."""
 
         # ask if wants to play again
         game_again = self.ask_question(
-            "Do you want to play again? Answer (yes/no)", ["yes", "no"]
+            "Do you want to play again? (Answer Y/N): ", ["Y", "N"]
         )
+        player0wins = self.score_board[self.players[0]]
+        player1wins = self.score_board[self.players[1]]
+        totalgames = sum(self.score_board.values())
 
-        # after each episode of the game the score board is displayed
-        print("Total games Played:", sum(self.score_board.values()))
-        print(f"{self.players[0]} has won {self.score_board[self.players[0]]} games.")
-        print(f"{self.players[1]} has won {self.score_board[self.players[1]]} games.")
-        print(f"{self.score_board['Ties']} games have resulted in a tie.")
-
-        if game_again == "no":
+        if game_again == "N":
             # if no more games to be played print the player who won the most games
-            if self.score_board[self.players[0]] > self.score_board[self.players[1]]:
-                print(self.players[0], " won majority games.")
-            elif self.score_board[self.players[0]] < self.score_board[self.players[1]]:
-                print(self.players[0], " won majority games.")
+            if player0wins > player1wins:
+                print(
+                    f"\n{self.players[0]} won {player0wins} out of {totalgames} game(s). They are the winner!\n"
+                )
+            elif player0wins < player1wins:
+                print(
+                    f"\n{self.players[1]} won {player1wins} out of {totalgames} game(s). They are the winner!\n"
+                )
             else:
                 print(
-                    self.players[0],
-                    " and ",
-                    self.players[1],
-                    " won equal number of games.",
+                    f"\n{self.players[0]} and {self.players[1]} won equal number of games.\n"
                 )
             # print a farewell line
-            print(
-                "Hope you enjoyed playing Tic Tac Toe. \
-Add a nice farewell here if needed or remove this line."
-            )
+            print("Hope you enjoyed playing Tic Tac Toe. See you next time. Bye!")
         # if more game to be played than reset the game and play on
         else:
+            # after each episode of the game the score board is displayed
+            print("\nTotal games Played:", totalgames)
+            print(f"Player 1 win count: {player0wins}")
+            print(f"Player 2 win count: {player1wins}")
+            print(f"Ties: {self.score_board['Ties']}")
             self.reset_game()
             self.game()
 
