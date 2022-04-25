@@ -1,7 +1,8 @@
 """Tic Tac Toe Game"""
-import winsound
+
 import numpy as np
 import sys
+from functools import cache
 
 
 class tic_tac_toe:
@@ -20,7 +21,16 @@ class tic_tac_toe:
             9: (2, 2),
         }
 
-        return self.turn()
+        self.player_maps = {"Player": "X", "Computer": "O"}
+        self.players = list(self.player_maps.keys())
+        self.symbols = self.player_maps.values()
+        self.player_turn = np.random.choice(self.players)
+
+    def change_player(self):
+        if self.player_turn == self.players[0]:
+            self.player_turn = self.players[1]
+        else:
+            self.player_turn = self.players[0]
 
     def check_repeating_letter(self, a):
         flag = True
@@ -73,69 +83,92 @@ class tic_tac_toe:
                 return True
         return False
 
-# will only work if game is over
+    # will only work if game is over
     def winning_player(self):
         arr_tb_check2 = self.create_check_arrays()
         for i in arr_tb_check2:
             if self.check_repeating_letter(i):
-                if np.unique(i)[0] == "O":
-                    return 'Computer'
-                elif np.unique(i)[0] == "X":
+                if np.unique(i)[0] == self.player_maps["Computer"]:
+                    return "Computer"
+                elif np.unique(i)[0] == self.player_maps["Player"]:
                     return "Player"
                 else:
                     pass
         if self.isTie():
             return "Tie"
-#############work onwards here##############
-    def computer_play(self):
-        board_S = self.board.copy()
 
-        for i, j in enumerate(board_S):
-            if j == "":
-                board_S[i + 1] = "O"
-                if self.check_game_over():
-                    if self.winning_player() == "Computer":
-                        
+    def minimax(self, Comp_turn):
 
-    def turn(self):
-        while self.check_game_over() == False:
-            print(f"{self.player_turn}'s Turn.")
-            place = input(f"{self.players} Please enter the position: ")
-            if place.isdigit():
-                if int(place) in self.place_maps.keys():
-                    board_place = self.place_maps[int(place)]
-                else:
-                    print("Invalid input. Please enter a number between 1 and 9.")
-                    self.turn()
+        if self.check_game_over():
+            if self.winning_player() == "Computer":
+                return 1
+            elif self.winning_player() == "Player":
+                return -1
+            elif self.winning_player() == "Tie":
+                return 0
             else:
-                print("Invalid input. Please enter a number between 1 and 9")
-                self.turn()
-            if self.board[board_place] == "":
-                self.board[board_place] = self.players[self.player_turn]
-            else:
-                print("Position Occupied. Please Try Again.")
-                self.turn()
-            if self.player_turn == "Player 1":
-                self.player_turn = "Player 2"
-            elif self.player_turn == "Player 2":
-                self.player_turn = "Player 1"
-
-            print(self.board)
-
-    def play_again(self):
-        ask = input("Do you want to play again? (Y/N): ").lower()
-        if ask[0] == "y":
-            print("Setting up new game...\n")
-            self.board = np.array([["", "", ""], ["", "", ""], ["", "", ""]])
-            self.player_turn = np.random.choice(
-                list(self.players.keys()), 1, [0.5, 0.5]
-            )[0]
-            self.turn()
-        elif ask[0] == "n":
-            print("See you next time!")
+                pass
         else:
-            print("Not an acceptable response. Please enter Y or N.")
-            self.play_again()
 
+            if Comp_turn:
+                scores = []
+                place = []
+                for i, j in enumerate(self.board.flatten()):
+                    if j == "":
 
-board_S = np.array([[1, 2], [5, 6]])
+                        self.board[self.place_maps[i + 1]] = self.player_maps[
+                            "Computer"
+                        ]
+                        place.append(i + 1)
+                        scores.append(self.minimax(False))
+
+                        self.board[self.place_maps[i + 1]] = ""
+                return max(scores)
+            else:
+                place = []
+                scores = []
+                for i, j in enumerate(self.board.flatten()):
+                    if j == "":
+                        self.board[self.place_maps[i + 1]] = self.player_maps["Player"]
+                        place.append(i + 1)
+                        scores.append(self.minimax(True))
+                        self.board[self.place_maps[i + 1]] = ""
+                return min(scores)
+
+    def computer_play(self):
+        place = []
+        score = []
+        for i, j in enumerate(self.board.flatten()):
+            if j == "":
+
+                self.board[self.place_maps[i + 1]] = self.player_maps["Computer"]
+                place.append(i + 1)
+                score.append(self.minimax(False))
+
+                self.board[self.place_maps[i + 1]] = ""
+        return place[np.argmax(score)]
+
+    def turn(self, ok=True):
+
+        while self.check_game_over() == False:
+            if self.player_turn == "Computer":
+                self.board[self.place_maps[self.computer_play()]] = self.player_maps[
+                    "Computer"
+                ]
+                print(self.board)
+                if self.check_game_over():
+                    break
+                self.change_player()
+
+            if self.player_turn == "Player":
+
+                print("Your Turn")
+                place = int(input("please enter the position"))
+                if self.board[self.place_maps[place]] != "":
+                    print("place occupied, Please Try again")
+                    self.turn()
+                else:
+                    self.board[self.place_maps[place]] = self.player_maps["Player"]
+                    print(self.board)
+                    ok = True
+                    self.change_player()
