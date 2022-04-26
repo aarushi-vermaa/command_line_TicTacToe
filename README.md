@@ -1,7 +1,9 @@
+[![GitHub license](https://img.shields.io/github/license/aarushi-vermaa/Biostat821_Final_Project)](https://github.com/aarushi-vermaa/Biostat821_Final_Project/blob/main/LICENSE)
+
 # Lets play Tic-Tac-Toe
 
-Welcome to the TickTacToe game. This repository is for the Final Project for BIOSTATS821 course - Software Tools for Data Science at Duke Univeristy.
-We are building a Tic-Tac-Toe game using Python. The user can play against another user or against the computer using the command prompt.
+Welcome to the TickTacToe game. This repository is for the Final Project for BIOSTATS821 course - Software Tools for Data Science at Duke University.
+We are building a Tic-Tac-Toe game using Python. The user can play against another user or against the computer using the command line prompt.
 
 ## How to Play
 
@@ -15,7 +17,7 @@ We are building a Tic-Tac-Toe game using Python. The user can play against anoth
   ['', '', '']]
 ```
 
-The board is a 3x3 grid as represented above. Each player can place their mark (either X or O) during their respective turns by entering the number corresponding to the position they want to place the Mark on. Please refer to the grid below to see which cumber corresponds to which place on the grid.
+The board is a 3x3 grid as represented above. The first player will always have an X mark, and the second player will always have an O mark. Each player can place their mark during their respective turns by entering the number corresponding to the position they want to place the mark on. Please refer to the grid below to see which number corresponds to which place on the grid.
 
 ```text
 [[ 1,  2, 3],
@@ -23,7 +25,6 @@ The board is a 3x3 grid as represented above. Each player can place their mark (
   [4, 5, 6],
   
   [7, 8, 9]]
-  
 ```
 
 For example, if a user wants to play their turn in top right corner, they enter the number 3 into the command prompt and their corresponding mark will be placed there.
@@ -33,7 +34,7 @@ For example, if a user wants to play their turn in top right corner, they enter 
 When the game is loaded, the user needs to select the players. The user can choose to play against another player or against the computer.
 When the game begings, the user is prompted to choose between the two. By entering the appropriate option (1 for Player vs. Player and 2 for Player vs. Computer). The player who plays first is selected randomly.
 
-### Player versus Human
+### Player versus Player
 
 If two human players are playing, the command prompt will display which Player's turn it is. To play their turn, each corresponding user must specify the position to be played on the 3x3 grid. The inputs range between the number 1-9 as displayed in the grid in The Board section.
 
@@ -43,8 +44,8 @@ If the user is playing against the computer, the command prompt will display if 
 
 ### Game Over
 
-Once the game has a winner or there is a draw, the prompt will display the outcome of the game.
-From here the user can choose to either quit the game or start a new game by answering the prompt
+Once the game has a winner or there is a tie, the prompt will display the outcome of the game.
+From here the user can choose to either quit the game or start a new game by answering the prompt,
 `Do you want to play again? (Answer Y/N)`
 
 ----
@@ -81,13 +82,13 @@ We hope you enjoy the game!
 
 ## Testing
 
-To test the functions in the game
+To test the functions in the game:
 
 ```python
 pytest test_ttt.py -s
 ```
 
-To test the coverage of the tests
+To test the coverage of the tests:
 
 ```python
 pytest test_ttt.py -s -cov
