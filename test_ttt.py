@@ -1,9 +1,8 @@
 """Test Tic Tac Toe classes and functions."""
-import pytest
-from unittest import mock
-from unittest.mock import patch
-import TicTacToe_no_cache as ttt
 import numpy as np
+import pytest
+import tictactoe_game as ttt
+
 
 # Initialize class for testing
 game = ttt.TicTacToe()
