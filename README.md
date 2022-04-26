@@ -73,7 +73,7 @@ Running this command will install the packages used to build the game. This will
 Step 3: Run the game on your local machine
 
 ```python
-python3 TicTacToe_no_cache.py
+python3 tictactoe_game.py
 ```
 
 Running this command will beging the game. Follow the instructions displayed to play the game.
