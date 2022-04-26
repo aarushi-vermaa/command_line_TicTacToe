@@ -100,7 +100,7 @@ pytest test_ttt.py -s -cov
 
 Our current game incorporates allows a user to play with another player or against the Computer. For the game with the Computer, we have built our functions using the Minimax Algorithm. The rewards for reinforcement learning are calculated using the algorithm, and the function learns the optimal moves by playing the game through recursion. 
 
-Since we are using recursion, to optimize our game, we incorporated Caching Memoization. The code to this game can be found [here](**to add link to Game with cache**). However, when the game is played with caching the computer takes around 30 seconds play its first move. Whereas it is faster when the game is played without caching. We want to optimize our code so that the computer is more effecient and faster when using Caching for recursion. 
+Since we are using recursion, to optimize our game, we incorporated Caching Memoization. The code to this game can be found [here](https://github.com/aarushi-vermaa/Biostat821_Final_Project/blob/WIP/tictactoe_cache.py). However, when the game is played with caching the computer takes around 30 seconds play its first move. Whereas it is faster when the game is played without caching. We want to optimize our code so that the computer is more effecient and faster when using Caching for recursion. 
 
 Currently our testing coverage is at 67%. We are exploring ways to test our remaining functions since they require a series of inputs and do not return a specific value, but only print outcomes. Covering these functions (`TicTacToe.game()` and `TicTacToe.play_again()`) will significantly improve our testing coverage
 
