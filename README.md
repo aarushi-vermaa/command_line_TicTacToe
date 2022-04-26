@@ -30,19 +30,22 @@ For example, if a user wants to play their turn in top right corner, they enter 
 
 ### Players Selection
 
-When the game is loaded, you need to select your players. You need to select the type of player you want by **(to be updated)** , either computer or human. The player who goes first is selected randomly.
+When the game is loaded, the user needs to select the players. The user can choose to play against another player or against the computer.
+When the game begings, the user is prompted to choose between the two. By entering the appropriate option (1 for Player vs. Player and 2 for Player vs. Computer). The player who plays first is selected randomly.
 
-### Human versus Human
+### Player versus Human
 
-If two human players are playing, the command prompt will display which Player's turn it is. To play your turn, you must specify the position to be played on the 3x3 grid.
+If two human players are playing, the command prompt will display which Player's turn it is. To play their turn, each corresponding user must specify the position to be played on the 3x3 grid. The inputs range between the number 1-9 as displayed in the grid in The Board section.
 
-### Human versus Computer
+### Player versus Computer
 
-If you are playing against the computer, the command prompt will display which Player's turn it is. To play your turn, you must specify the position to be played on the 3x3 grid, after that the computer will perform its move.
+If the user is playing against the computer, the command prompt will display if it is the Computer's turn or the User's turn. To play their turn, the user must specify the position to be played on the 3x3 grid. After that the computer will perform its move.
 
 ### Game Over
 
-Once the game has a winner or there is a draw, you will see prompt stating the outcome. From here you can start a new game by **(to update how)**
+Once the game has a winner or there is a draw, the prompt will display the outcome of the game.
+From here the user can choose to either quit the game or start a new game by answering the prompt
+`Do you want to play again? (Answer Y/N)`
 
 ----
 
@@ -66,7 +69,29 @@ pip install -r requirements.txt
 
 Running this command will install the packages used to build the game. This will allow you to play the game seamlessly
 
-Step 3: **To update**
+Step 3: Run the game on your local machine
+
+```python
+python3 TicTacToe_no_cache.py
+```
+
+Running this command will beging the game. Follow the instructions displayed to play the game.
+
+We hope you enjoy the game!
+
+## Testing
+
+To test the functions in the game
+
+```python
+pytest test_ttt.py -s
+```
+
+To test the coverage of the tests
+
+```python
+pytest test_ttt.py -s -cov
+```
 
 ----
 
