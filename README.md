@@ -16,8 +16,17 @@ We are building a Tic-Tac-Toe game using Python. The user can play against anoth
   
   ['', '', '']]
 ```
-The board is a 3x3 grid as represented above. Each player can place their mark (either X or O) during their respective turns by entering their **(To update with how numbers relate to the grid)**
+The board is a 3x3 grid as represented above. Each player can place their mark (either X or O) during their respective turns by entering the number corresponding to the position they want to place the Mark on. Please refer to the grid below to see which cumber corresponds to which place on the grid.
 
+```
+[[ 1,  2, 3],
+
+  [4, 5, 6],
+  
+  [7, 8, 9]]
+  
+```
+For example, if a user wants to play their turn in top right corner, they enter the number 3 into the command prompt and their corresponding mark will be placed there.
 
 ### Players Selection:
 When the game is loaded, you need to select your players. You need to select the type of player you want by **(to be updated)** , either computer or human. The player who goes first is selected randomly.
