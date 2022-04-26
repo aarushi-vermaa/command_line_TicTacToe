@@ -150,15 +150,14 @@ class tic_tac_toe:
     def winning_player(self) -> str:
         """Return the winning player if the game has ended."""
         arr_tb_check2 = self.create_check_arrays()
+        for i in arr_tb_check2:
+            if self.check_repeating_letter(i):
+                if np.unique(i)[0] == self.player_maps[self.players[0]]:
+                    return self.players[0]
+                elif np.unique(i)[0] == self.player_maps[self.players[1]]:
+                    return self.players[1]
         if self.is_tie():
             return "Tie"
-        else:
-            for i in arr_tb_check2:
-                if self.check_repeating_letter(i):
-                    if np.unique(i)[0] == self.player_maps[self.players[0]]:
-                        return self.players[0]
-                    elif np.unique(i)[0] == self.player_maps[self.players[1]]:
-                        return self.players[1]
 
     #################################
     ## To think of a better name for this function ##
