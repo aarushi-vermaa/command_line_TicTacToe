@@ -6,7 +6,7 @@ import TicTacToe_no_cache as ttt
 import numpy as np
 
 # Initialize class for testing
-game = ttt.tic_tac_toe()
+game = ttt.TicTacToe()
 
 
 def test_game_board():
