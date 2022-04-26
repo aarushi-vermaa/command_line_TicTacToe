@@ -35,7 +35,7 @@ For example, if a user wants to play their turn in top right corner, they enter 
 When the game is loaded, the user needs to select the players. The user can choose to play against another player or against the computer.
 When the game begings, the user is prompted to choose between the two. By entering the appropriate option (1 for Player vs. Player and 2 for Player vs. Computer). The player who plays first is selected randomly.
 
-### Player versus Human
+### Player versus Player
 
 If two human players are playing, the command prompt will display which Player's turn it is. To play their turn, each corresponding user must specify the position to be played on the 3x3 grid. The inputs range between the number 1-9 as displayed in the grid in The Board section.
 
@@ -45,7 +45,7 @@ If the user is playing against the computer, the command prompt will display if 
 
 ### Game Over
 
-Once the game has a winner or there is a draw, the prompt will display the outcome of the game.
+Once the game has a winner or there is a tie, the prompt will display the outcome of the game.
 From here the user can choose to either quit the game or start a new game by answering the prompt
 `Do you want to play again? (Answer Y/N)`
 
@@ -83,13 +83,13 @@ We hope you enjoy the game!
 
 ## Testing
 
-To test the functions in the game
+To test the functions in the game:
 
 ```python
 pytest test_ttt.py -s
 ```
 
-To test the coverage of the tests
+To test the coverage of the tests:
 
 ```python
 pytest test_ttt.py -s -cov
