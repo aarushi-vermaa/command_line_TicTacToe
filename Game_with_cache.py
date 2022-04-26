@@ -1,7 +1,6 @@
 """Tic Tac Toe Game"""
 
 import numpy as np
-import sys
 from typing import List, Dict, Tuple, Union
 
 
@@ -38,7 +37,7 @@ class tic_tac_toe:
         }
 
         self.game_mode = input(
-            "Welcome to Tic Tac Toe!\n Enter '1' for Player vs Player, '2' for Player vs Computer: "
+            "Welcome to Tic Tac Toe!\nEnter '1' for Player vs Player, '2' for Player vs Computer: "
         )
         # The question is repeated until user submits the acceptable answer
         while self.game_mode not in ["1", "2"]:
@@ -81,13 +80,11 @@ class tic_tac_toe:
         else:
             self.player_turn = self.players[0]
 
-    #####################################################
-    ### To think of better function name
-    def check_repeating_letter(self, a: np.ndarray) -> bool:
+    def check_repeating_letter(self, row_col_diag: np.ndarray) -> bool:
         """Check if an array has all the same letter."""
         flag = True
-        for i in range(1, len(a)):
-            if a[i] != a[i - 1]:
+        for i in range(1, len(row_col_diag)):
+            if row_col_diag[i] != row_col_diag[i - 1]:
                 flag = False
                 return flag
         return flag
@@ -106,20 +103,20 @@ class tic_tac_toe:
                     diagonal_2 = np.array(diagonal2)
         return diagonal_1, diagonal_2
 
-    def create_check_arrays(self) -> List[np.ndarray]:
+    def check_row_col_diag(self) -> List[np.ndarray]:
         """Create arrays that need to be checked to determine if the game is over"""
-        check_these = []
+        check_arrays = []
         for i in range(3):
             if ("O" in self.board[:, i]) or ("X" in self.board[:, i]):
-                check_these.append(self.board[:, i])
+                check_arrays.append(self.board[:, i])
             if ("O" in self.board[i, :]) or ("X" in self.board[i, :]):
-                check_these.append(self.board[i, :])
+                check_arrays.append(self.board[i, :])
         diagonal_1, diagonal_2 = self.diagonal()
         if ("O" in list(diagonal_1)) or ("X" in list(diagonal_1)):
-            check_these.append(diagonal_1)
+            check_arrays.append(diagonal_1)
         if ("O" in list(diagonal_2)) or ("X" in list(diagonal_2)):
-            check_these.append(diagonal_2)
-        return check_these
+            check_arrays.append(diagonal_2)
+        return check_arrays
 
     def is_tie(self) -> bool:
         """Check if the game has ended in a tie."""
@@ -130,7 +127,7 @@ class tic_tac_toe:
 
     def check_game_over(self) -> bool:
         """Check if the game is over."""
-        arr_tb_check = self.create_check_arrays()
+        arr_tb_check = self.check_row_col_diag()
         if len(arr_tb_check) > 0:
             for i in arr_tb_check:
                 if self.check_repeating_letter(i):
@@ -149,7 +146,7 @@ class tic_tac_toe:
 
     def winning_player(self) -> str:
         """Return the winning player if the game has ended."""
-        arr_tb_check2 = self.create_check_arrays()
+        arr_tb_check2 = self.check_row_col_diag()
         for i in arr_tb_check2:
             if self.check_repeating_letter(i):
                 if np.unique(i)[0] == self.player_maps[self.players[0]]:
@@ -159,9 +156,7 @@ class tic_tac_toe:
         if self.is_tie():
             return "Tie"
 
-    #################################
-    ## To think of a better name for this function ##
-    def check_in_cache(
+    def check_board_cache(
         self, board_state: np.ndarray, Comp_turn: bool
     ) -> Union[int, str]:
         """Check if minimax for a particular board state for a
@@ -181,13 +176,12 @@ class tic_tac_toe:
         from a user perspective or a computer perspective."""
         # if minimax for board state stored in cache
         # return its value else compute minimax
-        if self.check_in_cache(self.board, Comp_turn) in [-1, 0, 1]:
-            return self.check_in_cache(self.board, Comp_turn)
+        if self.check_board_cache(self.board, Comp_turn) in [-1, 0, 1]:
+            return self.check_board_cache(self.board, Comp_turn)
         else:
             # we define rewards for the computer
             # these rewards are maximized by computer
             # while minimized by user
-            # if self.check_game_over():
             if self.winning_player() == "Computer":
                 return 1
             elif self.winning_player() == "User":
@@ -276,7 +270,7 @@ class tic_tac_toe:
                 # hardcoded part for if computer plays the first turn
                 if self.turns_played == 0:
                     self.board[0, 0] = self.player_maps["Computer"]
-                elif self.turns_played == 1:
+                elif self.turns_played == 1 or self.turns_played == 2:
                     # if computer takes second turn, cache memoization takes about 30 seconds
                     # print something so the user knows it's thinking
                     print("Computer is thinking...")
@@ -323,19 +317,20 @@ class tic_tac_toe:
 
     def play_again(self) -> None:
         """Asks user if they want to play again or quit the game."""
+        # create variables to be used in print statements
+        player0wins = self.score_board[self.players[0]]
+        player1wins = self.score_board[self.players[1]]
+        totalgames = sum(self.score_board.values())
+
+        print("Total games Played:", totalgames)
+        print(f"{self.players[0]} win count: {player0wins}")
+        print(f"{self.players[1]} win count: {player1wins}")
+        print(f"Ties: {self.score_board['Ties']}\n")
 
         # ask if wants to play again
         game_again = self.ask_question(
             "Do you want to play again? (Answer Y/N): ", ["Y", "N"]
         )
-        player0wins = self.score_board[self.players[0]]
-        player1wins = self.score_board[self.players[1]]
-        totalgames = sum(self.score_board.values())
-
-        print("\nTotal games Played:", totalgames)
-        print(f"{self.players[0]} win count: {player0wins}")
-        print(f"{self.players[1]} win count: {player1wins}")
-        print(f"Ties: {self.score_board['Ties']}")
 
         if game_again == "N":
             # if no more games to be played print the player who won the most games
