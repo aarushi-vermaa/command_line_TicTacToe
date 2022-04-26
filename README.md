@@ -1,6 +1,6 @@
 [![GitHub license](https://img.shields.io/github/license/aarushi-vermaa/Biostat821_Final_Project)](https://github.com/aarushi-vermaa/Biostat821_Final_Project/blob/main/LICENSE)
 
-# Lets play Tic-Tac-Toe
+# Let's play Tic-Tac-Toe
 
 Welcome to the TickTacToe game. This repository is for the Final Project for BIOSTATS821 course - Software Tools for Data Science at Duke University.
 We are building a Tic-Tac-Toe game using Python. The user can play against another user or against the computer using the command line prompt.
