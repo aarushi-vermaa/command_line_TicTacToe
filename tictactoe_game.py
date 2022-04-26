@@ -1,7 +1,7 @@
 """Tic Tac Toe Game"""
 
 import numpy as np
-from typing import List, Dict, Tuple, Union
+from typing import List, Tuple, Union
 
 
 class TicTacToe:
@@ -143,7 +143,7 @@ class TicTacToe:
                 return True
         return False
 
-    def winning_player(self) -> str:
+    def winning_player(self) -> Union[str, None]:
         """Return the winning player if the game has ended."""
         arr_tb_check2 = self.check_row_col_diag()
         for i in arr_tb_check2:
@@ -154,6 +154,8 @@ class TicTacToe:
                     return self.players[1]
         if self.is_tie():
             return "Tie"
+        else:
+            return None
 
     def minimax(self, Comp_turn: bool) -> Union[int, str]:
         """A recursive function that aims to maximize computer rewards.

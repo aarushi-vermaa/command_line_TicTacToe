@@ -1,8 +1,6 @@
 """Test Tic Tac Toe classes and functions."""
-import numpy as np
-import pytest
 import tictactoe_game as ttt
-
+import numpy as np
 
 # Initialize class for testing
 game = ttt.TicTacToe()
@@ -65,7 +63,7 @@ def test_winning_player():
     """Test the winning player function.
 
     This functions tests whether the correct winning player is returned
-    based on the winning mark or if the game has neded in a Tie.
+    based on the winning mark or if the game has ended in a Tie.
     """
     if game.game_mode == "1":
         game.board = np.array([["X", "O", "O"], ["X", "O", "X"], ["O", "X", "O"]])
