@@ -35,23 +35,6 @@ def test_ask_question(monkeypatch):
         assert a == response
 
 
-# def test_invalid_input(monkeypatch):
-#     """Test invalid input throwing error."""
-#     monkeypatch.setattr(
-#         "builtins.input",
-#         lambda _: "INVALID INPUT. Please respond with one of the following: ",
-#     )
-#     # go about using input() like you normally would:
-#     input = ["b", "1"]
-#     for j in input:
-#         b = game.ask_question(j, [str(i) for i in game.place_maps.keys()])
-#         assert (
-#             b
-#             == "INVALID INPUT. Please respond with one of the following: ['1', '2', '3', '4', '5', '6', '7', '8', '9']"
-#         )
-#         exit()
-
-
 def test_check_repeating_letter():
     """Test the check_repeating_letter function.
 
@@ -88,15 +71,19 @@ def test_winning_player():
     if game.game_mode == "1":
         game.board = np.array([["X", "O", "O"], ["X", "O", "X"], ["O", "X", "O"]])
         assert game.winning_player() == "Player 2"
+
         game.board = np.array([["X", "", ""], ["X", "O", "O"], ["X", "", ""]])
         assert game.winning_player() == "Player 1"
+
         game.board = np.array([["X", "O", "X"], ["X", "O", "X"], ["O", "X", "O"]])
         assert game.winning_player() == "Tie"
     else:
         game.board = np.array([["X", "O", "O"], ["X", "O", "X"], ["O", "X", "O"]])
         assert game.winning_player() == "Computer"
+
         game.board = np.array([["X", "", ""], ["X", "O", "O"], ["X", "", ""]])
         assert game.winning_player() == "User"
+
         game.board = np.array([["X", "O", "X"], ["X", "O", "X"], ["O", "X", "O"]])
         assert game.winning_player() == "Tie"
 
@@ -113,12 +100,3 @@ def test_computer_play():
         assert game.computer_play() == 7
     else:
         pass
-
-
-# def test_play_again(monkeypatch):
-#     inputs = (['Y', 'N'])
-#     for response in inputs:
-#         monkeypatch.setattr('builtins.input', lambda _: response)
-#         # go about using input() like you normally would:
-#         a = game.play_again()
-#         assert a == response
