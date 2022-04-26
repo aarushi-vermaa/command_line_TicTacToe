@@ -1,4 +1,10 @@
-"""Tic Tac Toe Game"""
+"""Tic Tac Toe Game
+
+In this Tic Tac Toe Game we incorporate Caching Memoization 
+to optimize the game when a User plays against the computer.
+"""
+
+
 
 import numpy as np
 from typing import List, Dict, Tuple, Union
