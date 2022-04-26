@@ -27,7 +27,7 @@ The board is a 3x3 grid as represented above. The first player will always have 
   [7, 8, 9]]
 ```
 
-For example, if a user wants to play their turn in top right corner, they enter the number 3 into the command prompt and their corresponding mark will be placed there.
+For example, if a user wants to play their turn in the top right corner, they enter the number 3 into the command prompt and their corresponding mark will be placed there. If the position on the grid is already occupied, an `INVALID MOVE` error will appear and the player will be asked to select again.  Throughout the game, if the player types an input that is not acceptable, an `INVALID INPUT` error will appear and the player will be shown again what the acceptable inputs are, and they will be asked to try again.
 
 ### Players Selection
 
