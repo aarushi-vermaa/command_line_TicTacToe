@@ -2,8 +2,8 @@
 
 # Lets play Tic-Tac-Toe
 
-Welcome to the TickTacToe game. This repository is for the Final Project for BIOSTATS821 course - Software Tools for Data Science at Duke Univeristy.
-We are building a Tic-Tac-Toe game using Python. The user can play against another user or against the computer using the command prompt.
+Welcome to the TickTacToe game. This repository is for the Final Project for BIOSTATS821 course - Software Tools for Data Science at Duke University.
+We are building a Tic-Tac-Toe game using Python. The user can play against another user or against the computer using the command line prompt.
 
 ## How to Play
 
@@ -17,7 +17,7 @@ We are building a Tic-Tac-Toe game using Python. The user can play against anoth
   ['', '', '']]
 ```
 
-The board is a 3x3 grid as represented above. Each player can place their mark (either X or O) during their respective turns by entering the number corresponding to the position they want to place the Mark on. Please refer to the grid below to see which cumber corresponds to which place on the grid.
+The board is a 3x3 grid as represented above. The first player will always have an X mark, and the second player will always have an O mark. Each player can place their mark during their respective turns by entering the number corresponding to the position they want to place the mark on. Please refer to the grid below to see which number corresponds to which place on the grid.
 
 ```text
 [[ 1,  2, 3],
@@ -25,7 +25,6 @@ The board is a 3x3 grid as represented above. Each player can place their mark (
   [4, 5, 6],
   
   [7, 8, 9]]
-  
 ```
 
 For example, if a user wants to play their turn in top right corner, they enter the number 3 into the command prompt and their corresponding mark will be placed there.
@@ -46,7 +45,7 @@ If the user is playing against the computer, the command prompt will display if 
 ### Game Over
 
 Once the game has a winner or there is a tie, the prompt will display the outcome of the game.
-From here the user can choose to either quit the game or start a new game by answering the prompt
+From here the user can choose to either quit the game or start a new game by answering the prompt,
 `Do you want to play again? (Answer Y/N)`
 
 ----
