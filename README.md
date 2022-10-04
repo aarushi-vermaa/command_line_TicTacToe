@@ -36,7 +36,7 @@ When the game begins, the user is prompted to choose between the two options by 
 
 ### Player versus Player
 
-If two human players are playing, the command prompt will display which Player's turn it is. To play their turn, each corresponding user must specify the position to be played on the 3x3 grid. The inputs range between the number 1-9 as displayed in the grid in [The Board](###the-board) section.
+If two human players are playing, the command prompt will display which Player's turn it is. To play their turn, each corresponding user must specify the position to be played on the 3x3 grid. The inputs range between the number 1-9 as displayed in the grid in [The Board](#how-to-play) section.
 
 ### Player versus Computer
 
